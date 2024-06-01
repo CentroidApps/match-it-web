@@ -36,7 +36,8 @@
             "scripts": [
             ],
             "allowedCommonJsDependencies": [
-              "lodash"
+              "lodash",
+              "buffer"
            ]
           },
           "configurations": {
