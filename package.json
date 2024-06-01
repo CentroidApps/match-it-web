@@ -5,7 +5,6 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "deploy": "ng build --configuration-production --base-href https://CentroidApps.github.io/match-it-web/",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
