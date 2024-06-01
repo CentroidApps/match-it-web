@@ -22,7 +22,7 @@ destination_dir="docs"
 rm -rf "$source_dir"
 rm -rf "$destination_dir"
 
-ng build --configuration production --base-href https://centroidapps.github.io/match-it-web/
+ng build --configuration production --base-href /match-it-web/
 
 # Check if the source directory exists
 if [ ! -d "$source_dir" ]; then
