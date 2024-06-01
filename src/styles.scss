@@ -1,1 +1,68 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+*:not(.mat-icon) {
+    font-family: Roboto, "Helvetica Neue", sans-serif !important;
+}
+
+:root {
+    --ion-color-main: #3f51b5;
+    --ion-color-white: #FFFFFF;
+}
+
+.heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 70px;
+
+    h4 {
+        font-weight: 500 !important;
+        margin: 0;
+        color: var(--ion-color-main);
+    }
+}
+
+.dialog-heading {
+    @extend .heading;
+    height: 45px;
+}
+
+.mat-dialog-container {
+    max-height: 98vh !important;
+}
+
+// ---- start: loader style ----
+.overlay-backdrop {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.overlay-panel {
+    display: flex;
+    flex-direction: column;
+    background-color: transparent;
+    color: transparent;
+    padding: 20px;
+}
+// ---- end: loader style ----
+
+
+// ---- start: snackbar style ----
+.mat-mdc-snack-bar-container {
+    &.red-snackbar {
+        --mdc-snackbar-container-color: #f44336;
+        --mat-mdc-snack-bar-button-color: #fff;
+        --mdc-snackbar-supporting-text-color: #fff;
+    }
+}
+
+.mat-mdc-snack-bar-container {
+    &.green-snackbar {
+        --mdc-snackbar-container-color: #22C55E;
+        --mat-mdc-snack-bar-button-color: #fff;
+        --mdc-snackbar-supporting-text-color: #fff;
+    }
+}
+// ---- end: snackbar style ----

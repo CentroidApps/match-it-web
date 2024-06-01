@@ -1,0 +1,1 @@
+<img *ngIf="data?.media?.id" [src]="utilService.getImageUrl(data.media.id) | secure | async" width="400" height="400"/>

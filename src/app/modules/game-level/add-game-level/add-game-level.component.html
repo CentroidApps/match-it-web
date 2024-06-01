@@ -1,0 +1,78 @@
+<div class="p-3">
+    <div class="dialog-heading">
+        <h4>{{data?.id ? 'Update' : 'Add'}} Game Level</h4>
+        <button mat-icon-button mat-dialog-close><mat-icon>close</mat-icon></button>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="row">
+            <mat-form-field class="col-lg-6 mt-3">
+                <mat-label>Game Type</mat-label>
+                <mat-select formControlName="gameTypeId" placeholder="Select game type">
+                    <mat-option *ngFor="let type of gameTypeList" [value]="type.id">{{type.gameType}}</mat-option>
+                </mat-select>
+                <mat-error
+                    *ngIf="f.gameTypeId.invalid && (f.gameTypeId.dirty || f.gameTypeId.touched || showValidation)">
+                    <span *ngIf="f.gameTypeId.errors?.required">Game type is required</span>
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="col-lg-6 mt-3">
+                <mat-label>Game Level</mat-label>
+                <mat-select placeholder="Select game level" formControlName="gameLevel">
+                    <mat-option *ngFor="let type of systemConstValues?.levelTypes"
+                        [value]="type">{{type}}</mat-option>
+                </mat-select>
+                <mat-error
+                    *ngIf="f.gameLevel.invalid && (f.gameLevel.dirty || f.gameLevel.touched || showValidation)">
+                    <span *ngIf="f.gameLevel.errors?.required">Game level is required</span>
+                    <span *ngIf="f.gameLevel.errors?.whiteSpace">White space not allowed</span>
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="col-lg-6 mt-3">
+                <mat-label>AssetImagePath</mat-label>
+                <input matInput formControlName="assetImagePath" placeholder="Enter AssetImagePath">
+                <mat-error
+                    *ngIf="f.assetImagePath.invalid && (f.assetImagePath.dirty || f.assetImagePath.touched || showValidation)">
+                    <span *ngIf="f.assetImagePath.errors?.required">AssetImagePath is required</span>
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="col-lg-6 mt-3">
+                <mat-label>Coin Value</mat-label>
+                <input matInput formControlName="coinValue" placeholder="Enter coin value">
+                <mat-error
+                    *ngIf="f.coinValue.invalid && (f.coinValue.dirty || f.coinValue.touched || showValidation)">
+                    <span *ngIf="f.coinValue.errors?.required">Coin value is required</span>
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="col-lg-6 mt-3">
+                <mat-label>Sequence</mat-label>
+                <input matInput formControlName="sequence" placeholder="Enter Sequence">
+                <mat-error
+                    *ngIf="f.sequence.invalid && (f.sequence.dirty || f.sequence.touched || showValidation)">
+                    <span *ngIf="f.sequence.errors?.required">Sequence is required</span>
+                    <span *ngIf="f.sequence.errors?.whiteSpace">White space not allowed</span>
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="col-lg-6 mt-3">
+                <mat-label>Status</mat-label>
+                <mat-select placeholder="Status" formControlName="status">
+                    <mat-option value="Active">Active</mat-option>
+                    <mat-option value="Inactive">Inactive</mat-option>
+                </mat-select>
+                <mat-error *ngIf="f.status.invalid && (f.status.dirty || f.status.touched || showValidation)">
+                    <span *ngIf="f.status.errors?.required">Status is required</span>
+                </mat-error>
+            </mat-form-field>
+            
+        </div>
+
+        <div class="mt-2 mb-2 d-flex justify-content-end w-100">
+            <button mat-raised-button color="primary">{{data?.id ? 'Update' : 'Add '}} Game Level</button>
+        </div>
+    </form>
+</div>

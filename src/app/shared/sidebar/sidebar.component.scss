@@ -1,0 +1,21 @@
+.sidebar {
+  height: 100%;
+  overflow-y: auto;
+}
+
+mat-list-item {
+  cursor: pointer;
+
+  &.active {
+    background: lightgray;
+
+    span,
+    .mat-icon {
+      color: black;
+    }
+
+    span {
+      font-weight: 600;
+    }
+  }
+}
