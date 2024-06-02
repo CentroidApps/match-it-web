@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { MatDrawer } from '@angular/material/sidenav';
+import { environment } from 'src/environments/environment';
 import { GlobalVariable } from './config';
 import { StorageService } from './services/storage.service';
 import { UtilService } from './services/util.service';
@@ -12,6 +13,7 @@ import { UtilService } from './services/util.service';
 export class AppComponent {
 
   @ViewChild(MatDrawer) drawer!: MatDrawer;
+  feVersion: string = '';
 
   constructor(
     private utilService: UtilService,
@@ -19,6 +21,8 @@ export class AppComponent {
   ) { }
 
   ngOnInit(): void {
+    this.feVersion = environment.appVersion;
+
     this.utilService.srvUrlObx.subscribe((it) => {
       if (it) {
         GlobalVariable.BASE_URL = it;
