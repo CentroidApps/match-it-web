@@ -4,6 +4,7 @@ export class GlobalVariable {
 };
 
 export class ApiUrls {
+    static VALIDATE = (url: string) => `${url}/validate`;
     static GAME_TYPE = () => `${GlobalVariable.BASE_URL}/gameType`;
     static GAME_TYPE_DROPDOWN = () => `${GlobalVariable.BASE_URL}/gameType/dropdown`;
     static GAME_LEVEL = () => `${GlobalVariable.BASE_URL}/gameLevel`;

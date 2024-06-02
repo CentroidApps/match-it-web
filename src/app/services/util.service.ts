@@ -66,6 +66,8 @@ export class UtilService {
                 message = error?.message;
             }
             this.showErrorSnack(message);
+        } else if (typeof e === 'string') {
+            this.showErrorSnack(e);
         }
     }
 

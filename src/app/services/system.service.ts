@@ -13,6 +13,10 @@ export class SystemService {
     private http: HttpClient
   ) { }
 
+  validateRequest(url: string): Promise<boolean> {
+    return lastValueFrom(this.http.get<boolean>(ApiUrls.VALIDATE(url)));
+  }
+
   getSystemConstValues(): Promise<SystemConstValues> {
     return lastValueFrom(this.http.get<SystemConstValues>(ApiUrls.SYSTEM_CONSTANT_VALUES()));
   }
