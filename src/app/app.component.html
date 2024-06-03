@@ -1,12 +1,16 @@
-<mat-toolbar color="primary" *ngIf="storageService.getSrvUrl()" >
+<mat-toolbar color="primary" *ngIf="storageService.getSrvUrl()">
   <button mat-icon-button (click)="toggleDrawer()">
     <mat-icon>menu</mat-icon>
   </button>
   <span>Match It</span>
   <span class="spacer"></span>
-  <button (click)="logout()" mat-icon-button matTooltip="Logout">
-    <mat-icon>exit_to_app</mat-icon>
+  <button [matMenuTriggerFor]="menu" mat-icon-button matTooltip="Menu">
+    <mat-icon>more_vert</mat-icon>
   </button>
+  <mat-menu #menu="matMenu">
+    <button (click)="logout()" mat-menu-item><mat-icon>exit_to_app</mat-icon> Logout</button>
+    <button mat-menu-item><span>Build: v{{feVersion}}</span></button>
+  </mat-menu>
 </mat-toolbar>
 <mat-drawer-container>
   <mat-drawer #drawer role="navigation" opened="true" mode="side" *ngIf="storageService.getSrvUrl()">
