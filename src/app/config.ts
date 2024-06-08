@@ -16,6 +16,8 @@ export class ApiUrls {
     static MEDIA_DOWNLOAD = () => `${GlobalVariable.BASE_URL}/media/download/`;
     static MEDIA_UPLOAD = () => `${GlobalVariable.BASE_URL}/media/upload`;
     static MEDIA_DELETE = () => `${GlobalVariable.BASE_URL}/media`;
+
+    static DOWNLOAD_DATABASE = () => `${GlobalVariable.BASE_URL}/system/download-database`;
 };
 
 export const StorageConst = Object.freeze({
