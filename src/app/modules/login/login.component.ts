@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
 
 		try {
 			this.utilService.showLoader();
-			let url = this.loginForm.controls['srvUrl'].value;
+			let url = this.loginForm.controls['srvUrl'].value.trim();
 			await this.systemService.validateRequest(url);
 			this.storageService.setSrvUrl(url);
 			this.utilService.srvUrlObx.next(url);

@@ -8,8 +8,10 @@
     <mat-icon>more_vert</mat-icon>
   </button>
   <mat-menu #menu="matMenu">
-    <button (click)="logout()" mat-menu-item><mat-icon>exit_to_app</mat-icon> Logout</button>
-    <button mat-menu-item><span>Build: v{{feVersion}}</span></button>
+    <span mat-menu-item><mat-icon>info_outline</mat-icon> Build: v{{feVersion}}</span>
+    <span mat-menu-item><mat-icon>info_outline</mat-icon> SRV URL: {{srvUrl}}</span>
+    <span (click)="downloadDb()" mat-menu-item><mat-icon>file_download</mat-icon> Download Database</span>
+    <span (click)="logout()" mat-menu-item><mat-icon>exit_to_app</mat-icon> Logout</span>
   </mat-menu>
 </mat-toolbar>
 <mat-drawer-container>
