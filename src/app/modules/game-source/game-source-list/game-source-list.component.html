@@ -29,7 +29,8 @@
 		<th mat-header-cell *matHeaderCellDef>Media</th>
 		<td mat-cell *matCellDef="let element">
 			<div *ngFor="let i of element.mediaItems">
-				<img class="m-2" (click)="showImageDialog(i)" [attr.src]="utilService.getImageUrl(i.id) | secure | async" height="60" />
+				<img class="m-2" [matTooltipPosition]="'right'" matTooltip="{{'Bucket: ' + i.bucket}}" (click)="showImageDialog(i)"
+					[attr.src]="utilService.getImageUrl(i.id) | secure | async" height="60" />
 			</div>
 		</td>
 	</ng-container>

@@ -2,8 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { GameSource } from 'src/app/models/game-source';
+import { MediaBucket } from 'src/app/models/media-bucket';
 import { MediaItem } from 'src/app/models/media-item';
+import { SystemConstValues } from 'src/app/models/system-const-values';
 import { GameSourceService } from 'src/app/services/game-source.service';
+import { SystemService } from 'src/app/services/system.service';
 import { UtilService } from 'src/app/services/util.service';
 import { WhiteSpaceValidator } from 'src/app/validators/white-space.validator';
 
@@ -18,11 +21,13 @@ export class GameSourceDetailsComponent implements OnInit {
   showValidation = false;
   data: GameSource | null = null;
   gameSourceId!: number;
+  systemConstValues: SystemConstValues | undefined;
 
   constructor(
     private gameSourceService: GameSourceService,
     private activatedRoute: ActivatedRoute,
     public utilService: UtilService,
+    private systemService: SystemService,
     private formBuilder: FormBuilder,
   ) { }
 
@@ -60,6 +65,9 @@ export class GameSourceDetailsComponent implements OnInit {
       this.utilService.showLoader();
       let response = await this.gameSourceService.getGameSourceDetailsById(this.gameSourceId);
       this.data = response.payload;
+
+      response = await this.systemService.getSystemConstValues();
+      this.systemConstValues = response;
 
       if (this.data?.id) {
         this.form.addControl('id', new FormControl(this.data?.id, [Validators.required]));
@@ -123,6 +131,21 @@ export class GameSourceDetailsComponent implements OnInit {
       let response = await this.gameSourceService.updateGameSource(this.form.value);
       this.utilService.showSuccessSnack(response.message);
       await this.preLoadData();
+    } catch (e) {
+      this.utilService.showError(e);
+    } finally {
+      this.utilService.hideLoader();
+    }
+  }
+
+  async onBucketTypeChange(bucketValue: string, media: MediaItem) {
+    try {
+      this.utilService.showLoader();
+      let response = await this.gameSourceService.updateMediaBucket({
+        id: media.id,
+        bucket: bucketValue,
+      } as MediaBucket);
+      this.utilService.showSuccessSnack(response.message);
     } catch (e) {
       this.utilService.showError(e);
     } finally {

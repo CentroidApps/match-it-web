@@ -58,11 +58,22 @@
         </td>
     </ng-container>
 
+    <ng-container matColumnDef="questionBucketType">
+        <th mat-header-cell *matHeaderCellDef>QuestionBucketType</th>
+        <td mat-cell *matCellDef="let element">
+            <mat-form-field class="mt-3 column-width">
+                <mat-select placeholder="QuestionBucketType" [(ngModel)]="element.questionBucketType">
+                    <mat-option *ngFor="let type of systemConstValues?.bucketType" [value]="type">{{type}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </td>
+    </ng-container>
+
 
     <ng-container matColumnDef="start">
         <th mat-header-cell *matHeaderCellDef>Start</th>
         <td mat-cell *matCellDef="let element">
-            <mat-form-field class="mt-3">
+            <mat-form-field class="mt-3 column-width">
                 <input matInput placeholder="Start" [(ngModel)]="element.start">
             </mat-form-field>
         </td>
@@ -71,7 +82,7 @@
     <ng-container matColumnDef="end">
         <th mat-header-cell *matHeaderCellDef>End</th>
         <td mat-cell *matCellDef="let element">
-            <mat-form-field class="mt-3">
+            <mat-form-field class="mt-3 column-width">
                 <input matInput placeholder="End" [(ngModel)]="element.end">
             </mat-form-field>
         </td>
@@ -83,6 +94,17 @@
             <mat-form-field class="mt-3">
                 <mat-select placeholder="AnswerModelType" [(ngModel)]="element.answerModelType">
                     <mat-option *ngFor="let type of systemConstValues?.mediaType" [value]="type">{{type}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="answerBucketType">
+        <th mat-header-cell *matHeaderCellDef>AnswerBucketType</th>
+        <td mat-cell *matCellDef="let element">
+            <mat-form-field class="mt-3 column-width">
+                <mat-select placeholder="AnswerBucketType" [(ngModel)]="element.answerBucketType">
+                    <mat-option *ngFor="let type of systemConstValues?.bucketType" [value]="type">{{type}}</mat-option>
                 </mat-select>
             </mat-form-field>
         </td>

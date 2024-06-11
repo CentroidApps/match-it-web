@@ -4,6 +4,7 @@ import { lastValueFrom } from 'rxjs';
 import { ApiUrls } from '../config';
 import { AppResponse } from '../models/common-interface';
 import { GameSource } from '../models/game-source';
+import { MediaBucket } from '../models/media-bucket';
 import { MediaItem } from '../models/media-item';
 
 @Injectable({
@@ -40,4 +41,9 @@ export class GameSourceService {
   deleteMediaById(mediaId: number): Promise<any> {
     return lastValueFrom(this.http.delete<any>(ApiUrls.MEDIA_DELETE() + '/' + mediaId,));
   }
+
+  updateMediaBucket(payload: MediaBucket): Promise<any> {
+    return lastValueFrom(this.http.put<any>(ApiUrls.MEDIA_UPDATE_BUCKET(), payload));
+  }
+
 }
