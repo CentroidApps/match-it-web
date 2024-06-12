@@ -34,6 +34,10 @@ body {
     max-height: 98vh !important;
 }
 
+.column-width {
+    width: 100px !important;
+}
+
 // ---- start: loader style ----
 .overlay-backdrop {
     background-color: rgba(0, 0, 0, 0.1);
@@ -46,6 +50,7 @@ body {
     color: transparent;
     padding: 20px;
 }
+
 // ---- end: loader style ----
 
 
@@ -65,4 +70,5 @@ body {
         --mdc-snackbar-supporting-text-color: #fff;
     }
 }
+
 // ---- end: snackbar style ----

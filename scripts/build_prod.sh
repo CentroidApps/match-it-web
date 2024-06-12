@@ -20,7 +20,6 @@ source_dir="dist/match-it-web"
 destination_dir="docs"
 
 rm -rf "$source_dir"
-rm -rf "$destination_dir"
 
 ng build --configuration production --base-href /match-it-web/
 

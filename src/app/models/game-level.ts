@@ -6,7 +6,8 @@ export interface GameLevel {
     coinValue: number;
     gameType: GameType;
     gameLevel: string;
-    assetImagePath: string;
+    description: string;
+    bgColor: string;
     status: string;
     sequence: number;
 }

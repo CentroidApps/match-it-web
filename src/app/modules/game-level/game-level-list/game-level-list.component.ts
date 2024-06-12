@@ -12,7 +12,6 @@ import { GameLevelService } from 'src/app/services/game-level.service';
 import { GameTypeService } from 'src/app/services/game-type.service';
 import { UtilService } from 'src/app/services/util.service';
 import { AddGameLevelComponent } from '../add-game-level/add-game-level.component';
-import { BulkInsertComponent } from '../bulk-insert/bulk-insert.component';
 
 @Component({
   selector: 'app-game-level-list',
@@ -22,7 +21,7 @@ import { BulkInsertComponent } from '../bulk-insert/bulk-insert.component';
 export class GameLevelListComponent implements OnInit, OnDestroy {
 
   @ViewChild('paginator', { read: MatPaginator }) paginator!: MatPaginator;
-  displayedColumns: string[] = ['gameType', 'gameLevel', 'coinValue', 'sequence', 'status', 'assetImagePath', 'action'];
+  displayedColumns: string[] = ['gameType', 'gameLevel', 'coinValue', 'sequence', 'bgColor', 'description', 'status', 'action'];
   dataSource = new MatTableDataSource<GameLevel>();
   onDestroy = new Subject<void>();
 
@@ -38,10 +37,10 @@ export class GameLevelListComponent implements OnInit, OnDestroy {
 
   constructor(
     private dialog: MatDialog,
-    private utilService: UtilService,
     private gameLevelService: GameLevelService,
     private gameTypeService: GameTypeService,
     private fb: FormBuilder,
+    public utilService: UtilService,
   ) { }
 
   ngOnDestroy(): void {
@@ -165,15 +164,6 @@ export class GameLevelListComponent implements OnInit, OnDestroy {
         this.utilService.hideLoader();
       }
     }
-  }
-
-  bulkInsert(it: GameLevel) {
-    this.dialog.open(BulkInsertComponent, {
-      minWidth: '45%',
-      autoFocus: false,
-      disableClose: false,
-      data: it,
-    });
   }
 
 }

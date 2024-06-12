@@ -53,6 +53,23 @@
 		</td>
 	</ng-container>
 
+	<ng-container matColumnDef="bgColor">
+		<th mat-header-cell *matHeaderCellDef>Background Color</th>
+		<td mat-cell *matCellDef="let element">
+			<div style="display: flex;">
+				<div [style]="'height:20px; width:20px; background-color:' + utilService.toColor(element.bgColor)"></div>
+				&nbsp;{{element.bgColor}}
+			</div> 
+		</td>
+	</ng-container>
+
+	<ng-container matColumnDef="description">
+		<th mat-header-cell *matHeaderCellDef>Description</th>
+		<td mat-cell *matCellDef="let element">
+			{{element.description}}
+		</td>
+	</ng-container>
+
 	<ng-container matColumnDef="status">
 		<th mat-header-cell *matHeaderCellDef>Status</th>
 		<td mat-cell *matCellDef="let element" (click)="$event.stopPropagation()">
@@ -62,17 +79,9 @@
 		</td>
 	</ng-container>
 
-	<ng-container matColumnDef="assetImagePath">
-		<th mat-header-cell *matHeaderCellDef>AssetImagePath</th>
-		<td mat-cell *matCellDef="let element">
-			{{element.assetImagePath}}
-		</td>
-	</ng-container>
-
 	<ng-container matColumnDef="action">
 		<th mat-header-cell *matHeaderCellDef></th>
 		<td mat-cell *matCellDef="let element">
-			<button mat-icon-button (click)="bulkInsert(element)"><mat-icon>view_array</mat-icon></button>
 			<button mat-icon-button (click)="addOrEdit(element)"><mat-icon>edit</mat-icon></button>
 			<button mat-icon-button (click)="deleteGameLevel(element)"><mat-icon>delete</mat-icon></button>
 		</td>

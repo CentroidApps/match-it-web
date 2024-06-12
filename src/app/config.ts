@@ -4,6 +4,7 @@ export class GlobalVariable {
 };
 
 export class ApiUrls {
+    static VALIDATE = (url: string) => `${url}/validate`;
     static GAME_TYPE = () => `${GlobalVariable.BASE_URL}/gameType`;
     static GAME_TYPE_DROPDOWN = () => `${GlobalVariable.BASE_URL}/gameType/dropdown`;
     static GAME_LEVEL = () => `${GlobalVariable.BASE_URL}/gameLevel`;
@@ -15,6 +16,9 @@ export class ApiUrls {
     static MEDIA_DOWNLOAD = () => `${GlobalVariable.BASE_URL}/media/download/`;
     static MEDIA_UPLOAD = () => `${GlobalVariable.BASE_URL}/media/upload`;
     static MEDIA_DELETE = () => `${GlobalVariable.BASE_URL}/media`;
+    static MEDIA_UPDATE_BUCKET = () => `${GlobalVariable.BASE_URL}/media/bucket`;
+
+    static DOWNLOAD_DATABASE = () => `${GlobalVariable.BASE_URL}/system/download-database`;
 };
 
 export const StorageConst = Object.freeze({

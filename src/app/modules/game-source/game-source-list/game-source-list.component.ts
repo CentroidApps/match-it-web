@@ -9,6 +9,7 @@ import { Subject, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
 import { PaginationModel } from 'src/app/models/common-interface';
 import { GameSource } from 'src/app/models/game-source';
 import { GameType } from 'src/app/models/game-type';
+import { MediaItem } from 'src/app/models/media-item';
 import { GameSourceService } from 'src/app/services/game-source.service';
 import { GameTypeService } from 'src/app/services/game-type.service';
 import { UtilService } from 'src/app/services/util.service';
@@ -108,6 +109,11 @@ export class GameSourceListComponent implements OnInit, OnDestroy {
         this.utilService.showLoader();
       }
       let response = await this.gameSourceService.getGameSourceList(this.filterParams());
+      response.payload.data.map(it => {
+        it.mediaItems?.sort((a: MediaItem, b: MediaItem) => {
+          return a.id - b.id;
+        });
+      });
       this.dataSource.data = response.payload.data;
       setTimeout(() => {
         this.paginator.pageIndex = this.pagination.pageIndex;

@@ -1,6 +1,6 @@
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BehaviorSubject } from 'rxjs';
@@ -66,6 +66,8 @@ export class UtilService {
                 message = error?.message;
             }
             this.showErrorSnack(message);
+        } else if (typeof e === 'string') {
+            this.showErrorSnack(e);
         }
     }
 
@@ -107,5 +109,14 @@ export class UtilService {
             r = (num & 0xFF0000) >>> 16,
             a = ((num & 0xFF000000) >>> 24) / 255;
         return "rgba(" + [r, g, b, a].join(",") + ")";
+    }
+
+    public saveAsFile(data: HttpResponse<Blob>, name: string): void {
+        const blob = data.body;
+        const url = window.URL.createObjectURL(blob ?? new Blob());
+        const anchor = document.createElement('a');
+        anchor.download = name;
+        anchor.href = url;
+        anchor.click();
     }
 }
