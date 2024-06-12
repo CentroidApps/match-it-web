@@ -3,9 +3,8 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { MaterialModule } from 'src/app/material/material.module';
-import { GameLevelListComponent } from './game-level-list/game-level-list.component';
 import { AddGameLevelComponent } from './add-game-level/add-game-level.component';
-import { BulkInsertComponent } from './bulk-insert/bulk-insert.component';
+import { GameLevelListComponent } from './game-level-list/game-level-list.component';
 
 const routes: Routes = [{ path: '', component: GameLevelListComponent }]
 
@@ -13,7 +12,6 @@ const routes: Routes = [{ path: '', component: GameLevelListComponent }]
     declarations: [
         GameLevelListComponent,
         AddGameLevelComponent,
-        BulkInsertComponent
     ],
     imports: [
         CommonModule,

@@ -41,7 +41,8 @@ export class AddGameLevelComponent implements OnInit {
     this.form = this.formBuilder.group({
       gameTypeId: new FormControl(this.data?.gameType?.id, [Validators.required]),
       gameLevel: new FormControl(this.data?.gameLevel ?? '', [Validators.required, WhiteSpaceValidator.containSpace]),
-      assetImagePath: new FormControl(this.data?.assetImagePath ?? '', [Validators.required]),
+      description: new FormControl(this.data?.description ?? '', [Validators.required]),
+      bgColor: new FormControl(this.data?.bgColor ?? '', [Validators.required, WhiteSpaceValidator.containSpace]),
       coinValue: new FormControl(this.data?.coinValue ?? '', [Validators.required, WhiteSpaceValidator.containSpace]),
       sequence: new FormControl(this.data?.sequence ?? '', [Validators.required, WhiteSpaceValidator.containSpace]),
       status: new FormControl(this.data?.status ?? '', [Validators.required]),

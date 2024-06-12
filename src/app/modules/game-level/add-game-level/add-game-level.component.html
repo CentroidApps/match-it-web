@@ -31,11 +31,21 @@
             </mat-form-field>
 
             <mat-form-field class="col-lg-6 mt-3">
-                <mat-label>AssetImagePath</mat-label>
-                <input matInput formControlName="assetImagePath" placeholder="Enter AssetImagePath">
+                <mat-label>Description</mat-label>
+                <input matInput formControlName="description" placeholder="Enter Description">
                 <mat-error
-                    *ngIf="f.assetImagePath.invalid && (f.assetImagePath.dirty || f.assetImagePath.touched || showValidation)">
-                    <span *ngIf="f.assetImagePath.errors?.required">AssetImagePath is required</span>
+                    *ngIf="f.description.invalid && (f.description.dirty || f.description.touched || showValidation)">
+                    <span *ngIf="f.description.errors?.required">Description is required</span>
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="col-lg-6 mt-3">
+                <mat-label>Background Color</mat-label>
+                <input matInput formControlName="bgColor" placeholder="Enter Background Color">
+                <mat-error
+                    *ngIf="f.bgColor.invalid && (f.bgColor.dirty || f.bgColor.touched || showValidation)">
+                    <span *ngIf="f.bgColor.errors?.required">Background Color is required</span>
+                    <span *ngIf="f.bgColor.errors?.whiteSpace">White space not allowed</span>
                 </mat-error>
             </mat-form-field>
 
@@ -45,6 +55,7 @@
                 <mat-error
                     *ngIf="f.coinValue.invalid && (f.coinValue.dirty || f.coinValue.touched || showValidation)">
                     <span *ngIf="f.coinValue.errors?.required">Coin value is required</span>
+                    <span *ngIf="f.coinValue.errors?.whiteSpace">White space not allowed</span>
                 </mat-error>
             </mat-form-field>
 
