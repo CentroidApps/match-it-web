@@ -28,6 +28,9 @@ export class MatchItInterceptor implements HttpInterceptor {
 		req = req.clone({
 			headers: req.headers.set('bypass-tunnel-reminder', '*')
 		});
+		req = req.clone({
+			headers: req.headers.set('ngrok-skip-browser-warning', '69420')
+		});
 
 		return next.handle(req);
 	}
