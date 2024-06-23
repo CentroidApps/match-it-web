@@ -8,8 +8,10 @@ import { Subject, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
 import { PaginationModel } from 'src/app/models/common-interface';
 import { GameLevel } from 'src/app/models/game-level';
 import { GameType } from 'src/app/models/game-type';
+import { SystemConstValues } from 'src/app/models/system-const-values';
 import { GameLevelService } from 'src/app/services/game-level.service';
 import { GameTypeService } from 'src/app/services/game-type.service';
+import { SystemService } from 'src/app/services/system.service';
 import { UtilService } from 'src/app/services/util.service';
 import { AddGameLevelComponent } from '../add-game-level/add-game-level.component';
 
@@ -26,6 +28,7 @@ export class GameLevelListComponent implements OnInit, OnDestroy {
   onDestroy = new Subject<void>();
 
   filterForm!: FormGroup;
+  systemConstValues: SystemConstValues | undefined;
 
   pagination: PaginationModel = {
     pageSizeOptions: [10, 25, 50, 100],
@@ -40,6 +43,7 @@ export class GameLevelListComponent implements OnInit, OnDestroy {
     private gameLevelService: GameLevelService,
     private gameTypeService: GameTypeService,
     private fb: FormBuilder,
+    private systemService: SystemService,
     public utilService: UtilService,
   ) { }
 
@@ -48,11 +52,14 @@ export class GameLevelListComponent implements OnInit, OnDestroy {
     this.onDestroy.complete();
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.filterForm = this.fb.group({
       keyword: new FormControl(null),
       gameTypeId: new FormControl(null),
     });
+
+    let response = await this.systemService.getSystemConstValues();
+    this.systemConstValues = response;
 
     this.filterForm.controls['keyword'].valueChanges
       .pipe(takeUntil(this.onDestroy), debounceTime(500), distinctUntilChanged(),)
@@ -103,7 +110,8 @@ export class GameLevelListComponent implements OnInit, OnDestroy {
         this.utilService.showLoader();
       }
       let response = await this.gameLevelService.getGameLevelList(this.filterParams());
-      this.dataSource.data = response.payload.data;
+      this.buildTableData(response.payload.data);
+
       setTimeout(() => {
         this.paginator.pageIndex = this.pagination.pageIndex;
         this.paginator.length = response.payload.totalItems;
@@ -114,6 +122,21 @@ export class GameLevelListComponent implements OnInit, OnDestroy {
       if (showLoader) {
         this.utilService.hideLoader();
       }
+    }
+  }
+
+  buildTableData(response: any): void {
+    if (response) {
+      let data = response.map(
+        (list: any) => {
+          const temp = Object.assign({}, list);
+          temp.bgColorKey = this.systemConstValues?.colorTypes.find((it) => it.value == temp.bgColor)?.key;
+          return temp;
+        }
+      );
+      this.dataSource.data = data;
+    } else {
+      this.dataSource.data = [];
     }
   }
 

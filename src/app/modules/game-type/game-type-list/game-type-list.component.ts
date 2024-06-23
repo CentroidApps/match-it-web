@@ -7,7 +7,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Subject, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
 import { PaginationModel } from 'src/app/models/common-interface';
 import { GameType } from 'src/app/models/game-type';
+import { SystemConstValues } from 'src/app/models/system-const-values';
 import { GameTypeService } from 'src/app/services/game-type.service';
+import { SystemService } from 'src/app/services/system.service';
 import { UtilService } from 'src/app/services/util.service';
 import { AddGameTypeComponent } from '../add-game-type/add-game-type.component';
 
@@ -24,6 +26,7 @@ export class GameTypeListComponent implements OnInit, OnDestroy {
   onDestroy = new Subject<void>();
 
   filterForm!: FormGroup;
+  systemConstValues: SystemConstValues | undefined;
 
   pagination: PaginationModel = {
     pageSizeOptions: [10, 25, 50, 100],
@@ -35,6 +38,7 @@ export class GameTypeListComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private gameTypeService: GameTypeService,
     private fb: FormBuilder,
+    private systemService: SystemService,
     public utilService: UtilService,
   ) { }
 
@@ -43,10 +47,13 @@ export class GameTypeListComponent implements OnInit, OnDestroy {
     this.onDestroy.complete();
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.filterForm = this.fb.group({
       keyword: new FormControl(null),
     });
+
+    let response = await this.systemService.getSystemConstValues();
+    this.systemConstValues = response;
 
     this.filterForm.controls['keyword'].valueChanges
       .pipe(takeUntil(this.onDestroy), debounceTime(500), distinctUntilChanged(),)
@@ -63,7 +70,8 @@ export class GameTypeListComponent implements OnInit, OnDestroy {
         this.utilService.showLoader();
       }
       let response = await this.gameTypeService.getGameTypeList(this.filterParams());
-      this.dataSource.data = response.payload.data;
+      this.buildTableData(response.payload.data);
+
       setTimeout(() => {
         this.paginator.pageIndex = this.pagination.pageIndex;
         this.paginator.length = response.payload.totalItems;
@@ -74,6 +82,22 @@ export class GameTypeListComponent implements OnInit, OnDestroy {
       if (toShowLoader) {
         this.utilService.hideLoader();
       }
+    }
+  }
+
+  buildTableData(response: any): void {
+    if (response) {
+      let data = response.map(
+        (list: any) => {
+          const temp = Object.assign({}, list);
+          temp.bgColorKey = this.systemConstValues?.colorTypes.find((it) => it.value == temp.bgColor)?.key;
+          temp.btnColorKey = this.systemConstValues?.colorTypes.find((it) => it.value == temp.btnColor)?.key;
+          return temp;
+        }
+      );
+      this.dataSource.data = data;
+    } else {
+      this.dataSource.data = [];
     }
   }
 
