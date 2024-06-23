@@ -24,10 +24,10 @@ export class AddGameLevelComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private utilService: UtilService,
     private gameTypeService: GameTypeService,
     private gameLevelService: GameLevelService,
     private systemService: SystemService,
+    public utilService: UtilService,
     private dialogRef: MatDialogRef<AddGameLevelComponent>,
     @Inject(MAT_DIALOG_DATA) public data: GameLevel | null,
   ) { }
@@ -42,7 +42,7 @@ export class AddGameLevelComponent implements OnInit {
       gameTypeId: new FormControl(this.data?.gameType?.id, [Validators.required]),
       gameLevel: new FormControl(this.data?.gameLevel ?? '', [Validators.required, WhiteSpaceValidator.containSpace]),
       description: new FormControl(this.data?.description ?? '', [Validators.required]),
-      bgColor: new FormControl(this.data?.bgColor ?? '', [Validators.required, WhiteSpaceValidator.containSpace]),
+      bgColor: new FormControl(this.data?.bgColor ?? '', [Validators.required]),
       coinValue: new FormControl(this.data?.coinValue ?? '', [Validators.required, WhiteSpaceValidator.containSpace]),
       sequence: new FormControl(this.data?.sequence ?? '', [Validators.required, WhiteSpaceValidator.containSpace]),
       status: new FormControl(this.data?.status ?? '', [Validators.required]),

@@ -41,11 +41,17 @@
 
             <mat-form-field class="col-lg-6 mt-3">
                 <mat-label>Background Color</mat-label>
-                <input matInput formControlName="bgColor" placeholder="Enter Background Color">
+                <mat-select placeholder="Enter Background Color" formControlName="bgColor">
+                    <mat-option *ngFor="let type of systemConstValues?.colorTypes"
+                        [value]="type.value">
+                        <div class="d-flex">
+                            <div [style]="'height:20px; width:20px; background-color:' + utilService.toColor(type.value)"></div> &nbsp; {{type.key}}
+                        </div>
+                    </mat-option>
+                </mat-select>
                 <mat-error
                     *ngIf="f.bgColor.invalid && (f.bgColor.dirty || f.bgColor.touched || showValidation)">
                     <span *ngIf="f.bgColor.errors?.required">Background Color is required</span>
-                    <span *ngIf="f.bgColor.errors?.whiteSpace">White space not allowed</span>
                 </mat-error>
             </mat-form-field>
 

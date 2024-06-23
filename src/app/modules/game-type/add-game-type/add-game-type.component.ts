@@ -2,7 +2,9 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { GameType } from 'src/app/models/game-type';
+import { SystemConstValues } from 'src/app/models/system-const-values';
 import { GameTypeService } from 'src/app/services/game-type.service';
+import { SystemService } from 'src/app/services/system.service';
 import { UtilService } from 'src/app/services/util.service';
 import { WhiteSpaceValidator } from 'src/app/validators/white-space.validator';
 
@@ -15,11 +17,13 @@ export class AddGameTypeComponent implements OnInit {
 
   form!: FormGroup;
   showValidation = false;
+  systemConstValues: SystemConstValues | undefined;
 
   constructor(
     private formBuilder: FormBuilder,
-    private utilService: UtilService,
     private gameTypeService: GameTypeService,
+    private systemService: SystemService,
+    public utilService: UtilService,
     private dialogRef: MatDialogRef<AddGameTypeComponent>,
     @Inject(MAT_DIALOG_DATA) public data: GameType | null,
   ) { }
@@ -33,13 +37,28 @@ export class AddGameTypeComponent implements OnInit {
       gameType: new FormControl(this.data?.gameType ?? '', [Validators.required, WhiteSpaceValidator.containSpace]),
       assetImagePath: new FormControl(this.data?.assetImagePath ?? '', [Validators.required, WhiteSpaceValidator.containSpace]),
       imgType: new FormControl(this.data?.imgType ?? '', [Validators.required]),
-      bgColor: new FormControl(this.data?.bgColor ?? '', [Validators.required, WhiteSpaceValidator.containSpace]),
-      btnColor: new FormControl(this.data?.btnColor ?? '', [Validators.required, WhiteSpaceValidator.containSpace]),
+      bgColor: new FormControl(this.data?.bgColor ?? '', [Validators.required]),
+      btnColor: new FormControl(this.data?.btnColor ?? '', [Validators.required]),
       sequence: new FormControl(this.data?.sequence ?? '', [Validators.required, WhiteSpaceValidator.containSpace]),
       status: new FormControl(this.data?.status ?? '', [Validators.required]),
     });
     if (this.data?.id) {
       this.form.addControl('id', new FormControl(this.data?.id, [Validators.required]));
+    }
+    this.loadData();
+  }
+
+  async loadData() {
+    try {
+      this.utilService.showLoader();
+
+      let response = await this.systemService.getSystemConstValues();
+      this.systemConstValues = response;
+
+    } catch (e) {
+      this.utilService.showError(e);
+    } finally {
+      this.utilService.hideLoader();
     }
   }
 

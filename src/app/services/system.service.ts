@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { ApiUrls } from '../config';
 import { SystemConstValues } from '../models/system-const-values';
+import { CacheService } from './cache.service';
 import { UtilService } from './util.service';
 
 @Injectable({
@@ -13,6 +14,7 @@ export class SystemService {
   constructor(
     private http: HttpClient,
     private utilService: UtilService,
+    private cacheService: CacheService,
   ) { }
 
   validateRequest(url: string): Promise<boolean> {
@@ -20,7 +22,15 @@ export class SystemService {
   }
 
   getSystemConstValues(): Promise<SystemConstValues> {
-    return lastValueFrom(this.http.get<SystemConstValues>(ApiUrls.SYSTEM_CONSTANT_VALUES()));
+    let url = ApiUrls.SYSTEM_CONSTANT_VALUES();
+    let response = this.cacheService.get(url);
+    if (response) {
+      return response;
+    } else {
+      response = lastValueFrom(this.http.get<SystemConstValues>(url));
+      this.cacheService.set(url, response);
+      return response;
+    }
   }
 
   async downloadDatabase() {
