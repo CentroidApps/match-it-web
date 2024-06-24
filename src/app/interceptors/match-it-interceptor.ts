@@ -25,10 +25,6 @@ export class MatchItInterceptor implements HttpInterceptor {
 			}
 		}
 
-		req = req.clone({
-			headers: req.headers.set('rejectUnauthorized', 'false')
-		});
-
 		// req = req.clone({
 		// 	headers: req.headers.set('bypass-tunnel-reminder', '*')
 		// });
