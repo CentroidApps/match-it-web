@@ -10,4 +10,5 @@ export interface GameLevel {
     bgColor: string;
     status: string;
     sequence: number;
+    isMixed: boolean;
 }

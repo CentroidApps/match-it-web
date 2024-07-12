@@ -46,6 +46,7 @@ export class AddGameLevelComponent implements OnInit {
       coinValue: new FormControl(this.data?.coinValue ?? '', [Validators.required, WhiteSpaceValidator.containSpace]),
       sequence: new FormControl(this.data?.sequence ?? '', [Validators.required, WhiteSpaceValidator.containSpace]),
       status: new FormControl(this.data?.status ?? '', [Validators.required]),
+      isMixed: new FormControl(this.data?.isMixed ?? false),
     });
     if (this.data?.id) {
       this.form.addControl('id', new FormControl(this.data?.id, [Validators.required]));

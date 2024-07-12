@@ -85,6 +85,11 @@
                     <span *ngIf="f.status.errors?.required">Status is required</span>
                 </mat-error>
             </mat-form-field>
+
+            <div class="col-lg-6 mt-3">
+                <mat-label>IsMixed</mat-label><br>
+                <mat-slide-toggle class="mt-2" formControlName="isMixed"></mat-slide-toggle>
+            </div>
             
         </div>
 
