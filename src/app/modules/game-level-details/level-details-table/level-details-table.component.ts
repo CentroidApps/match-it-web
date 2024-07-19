@@ -18,7 +18,7 @@ import { UtilService } from 'src/app/services/util.service';
 })
 export class LevelDetailsTableComponent implements OnInit {
 
-  displayedColumns: string[] = ['action', 'description', 'questionModelType', 'questionBucketType', 'start', 'end', 'answerModelType', 'answerBucketType', 'status'];
+  displayedColumns: string[] = ['action', 'status', 'questionModelType', 'questionBucketType', 'start', 'end', 'answerModelType', 'answerBucketType', 'description'];
   dataSource = new MatTableDataSource<GameLevelDetails>();
   filterForm!: FormGroup;
   gameTypeList: GameType[] = [];
