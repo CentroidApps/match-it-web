@@ -39,7 +39,7 @@ export class AddGameTypeComponent implements OnInit {
       imgType: new FormControl(this.data?.imgType ?? '', [Validators.required]),
       bgColor: new FormControl(this.data?.bgColor ?? '', [Validators.required]),
       btnColor: new FormControl(this.data?.btnColor ?? '', [Validators.required]),
-      sequence: new FormControl(this.data?.sequence ?? '', [Validators.required, WhiteSpaceValidator.containSpace]),
+      sequence: new FormControl(this.data?.sequence),
       status: new FormControl(this.data?.status ?? '', [Validators.required]),
     });
     if (this.data?.id) {
@@ -76,10 +76,13 @@ export class AddGameTypeComponent implements OnInit {
     try {
       this.utilService.showLoader();
       let response: any;
+      let payload = this.form.value;
+      payload.sequence = payload.sequence.toString().length <= 0 ? null : Number(payload.sequence);
+
       if (this.data?.id) {
-        response = await this.gameTypeService.updateGameType(this.form.value);
+        response = await this.gameTypeService.updateGameType(payload);
       } else {
-        response = await this.gameTypeService.addGameType(this.form.value);
+        response = await this.gameTypeService.addGameType(payload);
       }
 
       this.utilService.showSuccessSnack(response.message);

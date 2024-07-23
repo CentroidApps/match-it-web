@@ -40,6 +40,12 @@ const routes: Routes = [
       import('./modules/game-source/game-source.module').then((m) => m.GameSourceModule),
     canActivate: [SessionGuard],
   },
+  {
+    path: 'system-settings',
+    loadChildren: () =>
+      import('./modules/system-settings/system-settings.module').then((m) => m.SystemSettingsModule),
+    canActivate: [SessionGuard],
+  },
 
   { path: '404', component: PageNoFoundComponent },
   { path: '**', redirectTo: '/404' },
