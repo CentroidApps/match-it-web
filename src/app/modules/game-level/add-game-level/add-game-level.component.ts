@@ -44,7 +44,7 @@ export class AddGameLevelComponent implements OnInit {
       description: new FormControl(this.data?.description ?? '', [Validators.required]),
       bgColor: new FormControl(this.data?.bgColor ?? '', [Validators.required]),
       coinValue: new FormControl(this.data?.coinValue ?? '', [Validators.required, WhiteSpaceValidator.containSpace]),
-      sequence: new FormControl(this.data?.sequence ?? '', [Validators.required, WhiteSpaceValidator.containSpace]),
+      sequence: new FormControl(this.data?.sequence),
       status: new FormControl(this.data?.status ?? '', [Validators.required]),
       isMixed: new FormControl(this.data?.isMixed ?? false),
     });
@@ -83,10 +83,13 @@ export class AddGameLevelComponent implements OnInit {
     try {
       this.utilService.showLoader();
       let response: any;
+      let payload = this.form.value;
+      payload.sequence = payload.sequence.toString().length <= 0 ? null : Number(payload.sequence);
+
       if (this.data?.id) {
-        response = await this.gameLevelService.updateGameLevel(this.form.value);
+        response = await this.gameLevelService.updateGameLevel(payload);
       } else {
-        response = await this.gameLevelService.addGameLevel(this.form.value);
+        response = await this.gameLevelService.addGameLevel(payload);
       }
 
       this.utilService.showSuccessSnack(response.message);

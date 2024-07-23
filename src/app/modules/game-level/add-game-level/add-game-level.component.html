@@ -68,11 +68,6 @@
             <mat-form-field class="col-lg-6 mt-3">
                 <mat-label>Sequence</mat-label>
                 <input matInput formControlName="sequence" placeholder="Enter Sequence">
-                <mat-error
-                    *ngIf="f.sequence.invalid && (f.sequence.dirty || f.sequence.touched || showValidation)">
-                    <span *ngIf="f.sequence.errors?.required">Sequence is required</span>
-                    <span *ngIf="f.sequence.errors?.whiteSpace">White space not allowed</span>
-                </mat-error>
             </mat-form-field>
 
             <mat-form-field class="col-lg-6 mt-3">
