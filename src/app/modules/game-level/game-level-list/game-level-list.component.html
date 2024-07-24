@@ -8,10 +8,6 @@
 <form [formGroup]="filterForm">
 	<div class="row">
 		<mat-form-field class="col-lg-4">
-			<mat-icon matPrefix>search</mat-icon>
-			<input matInput placeholder="Search game level..." formControlName="keyword">
-		</mat-form-field>
-		<mat-form-field class="col-lg-4">
 			<mat-select formControlName="gameTypeId" (selectionChange)="onGameTypeChanged()"
 				placeholder="Select game type">
 				<mat-option *ngFor="let type of gameTypeList" [value]="type.id">{{type.gameType}}</mat-option>
@@ -24,13 +20,6 @@
 
 	<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
 	<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-	<ng-container matColumnDef="gameType">
-		<th mat-header-cell *matHeaderCellDef>Game Type</th>
-		<td mat-cell *matCellDef="let element">
-			{{element.gameType.gameType}}
-		</td>
-	</ng-container>
 
 	<ng-container matColumnDef="gameLevel">
 		<th mat-header-cell *matHeaderCellDef>Game Level</th>
@@ -60,6 +49,13 @@
 				<div [style]="'height:20px; width:20px; background-color:' + utilService.toColor(element.bgColor)"></div>
 				&nbsp;{{element.bgColorKey}}
 			</div> 
+		</td>
+	</ng-container>
+
+	<ng-container matColumnDef="description">
+		<th mat-header-cell *matHeaderCellDef>Description</th>
+		<td mat-cell *matCellDef="let element">
+			{{element.description}}
 		</td>
 	</ng-container>
 
