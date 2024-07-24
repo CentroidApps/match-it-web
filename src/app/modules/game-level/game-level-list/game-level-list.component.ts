@@ -23,7 +23,7 @@ import { AddGameLevelComponent } from '../add-game-level/add-game-level.componen
 export class GameLevelListComponent implements OnInit, OnDestroy {
 
   @ViewChild('paginator', { read: MatPaginator }) paginator!: MatPaginator;
-  displayedColumns: string[] = ['gameType', 'gameLevel', 'coinValue', 'sequence', 'bgColor', 'status', 'action'];
+  displayedColumns: string[] = ['gameLevel', 'coinValue', 'sequence', 'bgColor', 'description', 'status', 'action'];
   dataSource = new MatTableDataSource<GameLevel>();
   onDestroy = new Subject<void>();
 
