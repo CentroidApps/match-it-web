@@ -8,7 +8,9 @@ export interface GameSource {
     text1: string;
     text2: string;
     status: string;
+    sourceGroup: string;
     gameTypeId: number;
+    sequence: number;
     gameType: GameType;
     mediaItems: Array<MediaItem>;
     createdAt: Date;

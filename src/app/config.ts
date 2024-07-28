@@ -17,6 +17,8 @@ export class ApiUrls {
     static MEDIA_UPLOAD = () => `${GlobalVariable.BASE_URL}/media/upload`;
     static MEDIA_DELETE = () => `${GlobalVariable.BASE_URL}/media`;
     static MEDIA_UPDATE_BUCKET = () => `${GlobalVariable.BASE_URL}/media/bucket`;
+    static UPDATE_GAME_SOURCE_GROUP = () => `${GlobalVariable.BASE_URL}/gameSource/change-source-group`;
+    static GAME_SOURCE_APPLY_NEW_SEQUENCE = () => `${GlobalVariable.BASE_URL}/gameSource/apply-new-sequence`;
 
     static DOWNLOAD_DATABASE = () => `${GlobalVariable.BASE_URL}/system/download-database`;
 };

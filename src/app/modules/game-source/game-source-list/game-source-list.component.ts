@@ -10,8 +10,10 @@ import { PaginationModel } from 'src/app/models/common-interface';
 import { GameSource } from 'src/app/models/game-source';
 import { GameType } from 'src/app/models/game-type';
 import { MediaItem } from 'src/app/models/media-item';
+import { SystemConstValues } from 'src/app/models/system-const-values';
 import { GameSourceService } from 'src/app/services/game-source.service';
 import { GameTypeService } from 'src/app/services/game-type.service';
+import { SystemService } from 'src/app/services/system.service';
 import { UtilService } from 'src/app/services/util.service';
 import { ShowImageDialogComponent } from '../show-image-dialog/show-image-dialog.component';
 
@@ -23,7 +25,7 @@ import { ShowImageDialogComponent } from '../show-image-dialog/show-image-dialog
 export class GameSourceListComponent implements OnInit, OnDestroy {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  displayedColumns: string[] = ['media', 'spelling', 'text1', 'text2', 'createdAt', 'status', 'action'];
+  displayedColumns: string[] = ['media', 'spelling', 'text1', 'text2', 'sequence', 'sourceGroup', 'status', 'action'];
   dataSource = new MatTableDataSource<GameSource>();
   onDestroy = new Subject<void>();
 
@@ -35,6 +37,7 @@ export class GameSourceListComponent implements OnInit, OnDestroy {
     pageIndex: 0,
   };
 
+  systemConstValues: SystemConstValues | undefined;
   gameTypeList: GameType[] = [];
 
   constructor(
@@ -44,6 +47,7 @@ export class GameSourceListComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private router: Router,
     private activatedRoute: ActivatedRoute,
+    private systemService: SystemService,
     private _dialog: MatDialog,
   ) { }
 
@@ -56,6 +60,7 @@ export class GameSourceListComponent implements OnInit, OnDestroy {
     this.filterForm = this.fb.group({
       keyword: new FormControl(null),
       gameTypeId: new FormControl(null),
+      sourceGroup: new FormControl(null),
     });
 
     this.activatedRoute.queryParams.subscribe((params) => {
@@ -71,6 +76,9 @@ export class GameSourceListComponent implements OnInit, OnDestroy {
       }
       if (params?.['gameTypeId'] && !this.filterForm.value.gameTypeId) {
         options['gameTypeId'] = parseInt(params?.['gameTypeId']);
+      }
+      if (params?.['sourceGroup'] && !this.filterForm.value.sourceGroup) {
+        options['sourceGroup'] = params?.['sourceGroup'];
       }
 
       this.filterForm.patchValue(options);
@@ -90,9 +98,40 @@ export class GameSourceListComponent implements OnInit, OnDestroy {
     await this.getGameSourceList();
   }
 
+  async onGameSourceGroupChanged() {
+    await this.getGameSourceList();
+  }
+
+  async applyNewSequence(clearSequence: boolean) {
+    if (!this.filterForm.value.gameTypeId) {
+      this.utilService.showErrorSnack('Please select game!');
+      return;
+    }
+
+    if (!this.filterForm.value.sourceGroup) {
+      this.utilService.showErrorSnack('Please select source group!');
+      return;
+    }
+
+    try {
+      this.utilService.showLoader();
+      let response = await this.gameSourceService.applyNewSequence(this.filterForm.value.gameTypeId, this.filterForm.value.sourceGroup, clearSequence);
+      this.utilService.showSuccessSnack(response.message);
+      await this.getGameSourceList(false);
+    } catch (error) {
+      this.utilService.showError(error);
+    } finally {
+      this.utilService.hideLoader();
+    }
+  }
+
   async loadData() {
     try {
       this.utilService.showLoader();
+
+      let sysResp = await this.systemService.getSystemConstValues();
+      this.systemConstValues = sysResp;
+
       let response = await this.gameTypeService.getGameTypeDropdownList();
       this.gameTypeList = response.payload.data;
       await this.getGameSourceList(false);
@@ -146,6 +185,10 @@ export class GameSourceListComponent implements OnInit, OnDestroy {
     if (this.filterForm.value.gameTypeId) {
       params = params.append('gameTypeId', this.filterForm.value.gameTypeId);
     }
+
+    if (this.filterForm.value.sourceGroup) {
+      params = params.append('sourceGroup', this.filterForm.value.sourceGroup);
+    }
     this.updateRoute();
     return params;
   }
@@ -159,6 +202,7 @@ export class GameSourceListComponent implements OnInit, OnDestroy {
         size: this.pagination.pageSize,
         keyword: this.filterForm.value.keyword,
         gameTypeId: this.filterForm.value.gameTypeId,
+        sourceGroup: this.filterForm.value.sourceGroup,
       },
       queryParamsHandling: 'merge',
     });
@@ -166,6 +210,18 @@ export class GameSourceListComponent implements OnInit, OnDestroy {
 
   openDetails(source: GameSource) {
     this.router.navigate(['source-form', source.id], { relativeTo: this.activatedRoute });
+  }
+
+  async onSourceGroupChange(id: number, value: string) {
+    try {
+      this.utilService.showLoader();
+      let response = await this.gameSourceService.updateSourceGroup(id, value);
+      this.utilService.showSuccessSnack(response.message);
+    } catch (error) {
+      this.utilService.showError(error);
+    } finally {
+      this.utilService.hideLoader();
+    }
   }
 
   async onChangeStatus(it: GameSource) {
