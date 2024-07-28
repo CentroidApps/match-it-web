@@ -18,7 +18,7 @@ import { UtilService } from 'src/app/services/util.service';
 })
 export class LevelDetailsTableComponent implements OnInit {
 
-  displayedColumns: string[] = ['action', 'status', 'questionModelType', 'questionBucketType', 'start', 'end', 'answerModelType', 'answerBucketType', 'description'];
+  displayedColumns: string[] = ['action', 'status', 'sourceGroup', 'questionModelType', 'questionBucketType', 'start', 'end', 'answerModelType', 'answerBucketType', 'description'];
   dataSource = new MatTableDataSource<GameLevelDetails>();
   filterForm!: FormGroup;
   gameTypeList: GameType[] = [];
@@ -140,9 +140,13 @@ export class LevelDetailsTableComponent implements OnInit {
       gameLevelId: gameLevelId,
       description: '',
       questionModelType: '',
-      start: 0,
-      end: 0,
+      start: null,
+      end: null,
       answerModelType: '',
+      status: 'Active',
+      sourceGroup: 'G1',
+      questionBucketType: 'NA',
+      answerBucketType: 'NA',
     } as GameLevelDetails;
   }
 }

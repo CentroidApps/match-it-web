@@ -4,9 +4,10 @@ export interface GameLevelDetails {
     description: string;
     questionModelType: string;
     questionBucketType: string;
-    start: number;
-    end: number;
+    start?: number | null;
+    end?: number | null;
     answerModelType: string;
     answerBucketType: string;
+    sourceGroup: string;
     status: string;
 }

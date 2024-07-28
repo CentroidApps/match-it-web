@@ -21,7 +21,7 @@ export class GameSourceService {
   }
 
   updateGameSource(params: any): Promise<any> {
-    return lastValueFrom(this.http.patch<any>(ApiUrls.GAME_SOURCE(), params));
+    return lastValueFrom(this.http.put<any>(ApiUrls.GAME_SOURCE(), params));
   }
 
   deleteGameSourceById(gameSourceId: number): Promise<any> {
@@ -43,7 +43,22 @@ export class GameSourceService {
   }
 
   updateMediaBucket(payload: MediaBucket): Promise<any> {
-    return lastValueFrom(this.http.put<any>(ApiUrls.MEDIA_UPDATE_BUCKET(), payload));
+    return lastValueFrom(this.http.patch<any>(ApiUrls.MEDIA_UPDATE_BUCKET(), payload));
+  }
+
+  updateSourceGroup(id: number, value: string): Promise<any> {
+    return lastValueFrom(this.http.patch<any>(ApiUrls.UPDATE_GAME_SOURCE_GROUP(), {
+      id: id,
+      sourceGroup: value,
+    }));
+  }
+
+  applyNewSequence(id: number, value: string, clearSequence: boolean): Promise<any> {
+    return lastValueFrom(this.http.patch<any>(ApiUrls.GAME_SOURCE_APPLY_NEW_SEQUENCE(), {
+      gameTypeId: id,
+      sourceGroup: value,
+      clearSequence: clearSequence,
+    }));
   }
 
 }
