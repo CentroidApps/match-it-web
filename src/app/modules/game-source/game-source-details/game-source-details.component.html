@@ -7,6 +7,20 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="row">
         <mat-form-field class="col-lg-4">
+			<mat-select formControlName="gameTypeId"
+				placeholder="Select game type">
+				<mat-option *ngFor="let type of gameTypeList" [value]="type.id">{{type.gameType}}</mat-option>
+			</mat-select>
+		</mat-form-field>
+
+        <mat-form-field class="col-lg-4">
+			<mat-select formControlName="sourceGroup"
+				placeholder="Select level filter">
+				<mat-option *ngFor="let type of systemConstValues?.sourceGroup" [value]="type">{{type}}</mat-option>
+			</mat-select>
+		</mat-form-field>
+
+        <mat-form-field class="col-lg-4">
             <mat-label>tts</mat-label>
             <input matInput formControlName="tts" placeholder="Enter tts">
             <mat-error *ngIf="f.tts.invalid && (f.tts.dirty || f.tts.touched || showValidation)">
@@ -25,7 +39,7 @@
             <input matInput formControlName="text2" placeholder="Enter text2">
         </mat-form-field>
 
-        <mat-form-field class="col-lg-6">
+        <mat-form-field class="col-lg-4">
             <mat-label>spelling</mat-label>
             <textarea matInput formControlName="spelling" rows="2" placeholder="Enter spelling"></textarea>
             <mat-error *ngIf="f.spelling.invalid && (f.spelling.dirty || f.spelling.touched || showValidation)">
@@ -42,32 +56,34 @@
         </div>
     </div>
 
-    <button type="submit" color="primary" mat-raised-button>{{data?.id ? 'Update' : 'Add '}} Game Source</button>
+    <button class="mt-4" type="submit" color="primary" mat-raised-button>{{data?.id ? 'Update' : 'Add '}} Game Source</button>
 </form>
 
-<div class="heading mt-4">
-    <div class="d-flex">
-        <h4>Media Details</h4>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-lg-3" *ngFor="let media of data?.mediaItems">
-        <img class="m-3" [src]="utilService.getImageUrl(media.id) | secure | async" height="100" />
-        <div>
-            <mat-form-field>
-                <mat-label>Bucket</mat-label>
-                <mat-select (selectionChange)="onBucketTypeChange($event.value, media)" [value]="media.bucket" placeholder="Bucket">
-                    <mat-option *ngFor="let type of systemConstValues?.bucketType" [value]="type">{{type}}</mat-option>
-                </mat-select>
-            </mat-form-field>
-            <button mat-icon-button (click)="deleteGameSourceMedia(media)"><mat-icon>delete</mat-icon></button>
+<div *ngIf="gameSourceId">
+    <div class="heading mt-4">
+        <div class="d-flex">
+            <h4>Media Details</h4>
         </div>
     </div>
+    
+    <div class="row">
+        <div class="col-lg-3" *ngFor="let media of data?.mediaItems">
+            <img class="m-3" [src]="utilService.getImageUrl(media.id) | secure | async" height="100" />
+            <div>
+                <mat-form-field>
+                    <mat-label>Bucket</mat-label>
+                    <mat-select (selectionChange)="onBucketTypeChange($event.value, media)" [value]="media.bucket" placeholder="Bucket">
+                        <mat-option *ngFor="let type of systemConstValues?.bucketType" [value]="type">{{type}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <button mat-icon-button (click)="deleteGameSourceMedia(media)"><mat-icon>delete</mat-icon></button>
+            </div>
+        </div>
+    </div>
+    
+    <input matInput placeholder="Browse File" fieldLabel="Add Game Source Media" hidden>
+    <button type="button" mat-raised-button color="primary" class="mt-3" (click)="fileUpload.click()">Add Game Source
+        Media</button>
+    <input class="file-btn" autocomplete="off" style="display: none;" type="file" #fileUpload
+        (change)="addSourceMedia($event)" accept="image/png, image/jpeg, image/jpg, image/svg+xml" multiple />
 </div>
-
-<input matInput placeholder="Browse File" fieldLabel="Add Game Source Media" hidden>
-<button type="button" mat-raised-button color="primary" class="mt-3" (click)="fileUpload.click()">Add Game Source
-    Media</button>
-<input class="file-btn" autocomplete="off" style="display: none;" type="file" #fileUpload
-    (change)="addSourceMedia($event)" accept="image/png, image/jpeg, image/jpg, image/svg+xml" multiple />

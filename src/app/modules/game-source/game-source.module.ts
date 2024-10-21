@@ -11,7 +11,8 @@ import { ShowImageDialogComponent } from './show-image-dialog/show-image-dialog.
 
 const routes: Routes = [
     { path: '', component: GameSourceListComponent },
-    { path: 'source-form/:id', component: GameSourceDetailsComponent }
+    { path: 'source-form/:id', component: GameSourceDetailsComponent },
+    { path: 'add-source-form', component: GameSourceDetailsComponent }
 ];
 
 @NgModule({
