@@ -20,6 +20,10 @@ export class GameSourceService {
     return lastValueFrom(this.http.get<AppResponse<GameSource[]>>(ApiUrls.GAME_SOURCE(), { params: params }));
   }
 
+  createGameSource(params: any): Promise<any> {
+    return lastValueFrom(this.http.post<any>(ApiUrls.GAME_SOURCE(), params));
+  }
+
   updateGameSource(params: any): Promise<any> {
     return lastValueFrom(this.http.put<any>(ApiUrls.GAME_SOURCE(), params));
   }

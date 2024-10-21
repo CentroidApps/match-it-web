@@ -2,10 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { GameSource } from 'src/app/models/game-source';
+import { GameType } from 'src/app/models/game-type';
 import { MediaBucket } from 'src/app/models/media-bucket';
 import { MediaItem } from 'src/app/models/media-item';
 import { SystemConstValues } from 'src/app/models/system-const-values';
 import { GameSourceService } from 'src/app/services/game-source.service';
+import { GameTypeService } from 'src/app/services/game-type.service';
 import { SystemService } from 'src/app/services/system.service';
 import { UtilService } from 'src/app/services/util.service';
 import { WhiteSpaceValidator } from 'src/app/validators/white-space.validator';
@@ -20,11 +22,13 @@ export class GameSourceDetailsComponent implements OnInit {
   form!: FormGroup;
   showValidation = false;
   data: GameSource | null = null;
-  gameSourceId!: number;
+  gameSourceId: number | null = null;
   systemConstValues: SystemConstValues | undefined;
+  gameTypeList: GameType[] = [];
 
   constructor(
     private gameSourceService: GameSourceService,
+    private gameTypeService: GameTypeService,
     private activatedRoute: ActivatedRoute,
     public utilService: UtilService,
     private systemService: SystemService,
@@ -35,13 +39,17 @@ export class GameSourceDetailsComponent implements OnInit {
     this.initForm();
 
     this.activatedRoute.paramMap.subscribe(async (it) => {
-      this.gameSourceId = parseInt(it.get('id') ?? '0');
+      if (it.get('id')) {
+        this.gameSourceId = parseInt(it.get('id') ?? '0');
+      }
       await this.preLoadData();
     });
   }
 
   initForm(): void {
     this.form = this.formBuilder.group({
+      gameTypeId: new FormControl(null, [Validators.required]),
+      sourceGroup: new FormControl(null, [Validators.required]),
       tts: new FormControl(null, [Validators.required, WhiteSpaceValidator.containSpace]),
       spelling: new FormControl(null, [Validators.required, WhiteSpaceValidator.containSpace]),
       text1: new FormControl(null),
@@ -63,17 +71,22 @@ export class GameSourceDetailsComponent implements OnInit {
   async preLoadData() {
     try {
       this.utilService.showLoader();
-      let response = await this.gameSourceService.getGameSourceDetailsById(this.gameSourceId);
-      this.data = response.payload;
+      let response = await this.gameTypeService.getGameTypeDropdownList();
+      this.gameTypeList = response.payload.data;
 
       response = await this.systemService.getSystemConstValues();
       this.systemConstValues = response;
 
-      if (this.data?.id) {
-        this.form.addControl('id', new FormControl(this.data?.id, [Validators.required]));
-      }
+      if (this.gameSourceId) {
+        response = await this.gameSourceService.getGameSourceDetailsById(this.gameSourceId);
+        this.data = response.payload;
 
-      this.form.patchValue(this.data!);
+        if (this.data?.id) {
+          this.form.addControl('id', new FormControl(this.data?.id, [Validators.required]));
+        }
+
+        this.form.patchValue(this.data!);
+      }
     } catch (e) {
       this.utilService.showError(e);
     } finally {
@@ -105,7 +118,7 @@ export class GameSourceDetailsComponent implements OnInit {
 
           let formData = new FormData()
           formData.append('file', selectedFile);
-          let media = await this.gameSourceService.uploadSourceMedia(formData, this.gameSourceId);
+          let media = await this.gameSourceService.uploadSourceMedia(formData, this.gameSourceId!);
           console.log(media);
         }
         event.target.value = null;
@@ -128,7 +141,13 @@ export class GameSourceDetailsComponent implements OnInit {
 
     try {
       this.utilService.showLoader();
-      let response = await this.gameSourceService.updateGameSource(this.form.value);
+      let response: any;
+      if (this.gameSourceId) {
+        response = await this.gameSourceService.updateGameSource(this.form.value);
+      } else {
+        response = await this.gameSourceService.createGameSource(this.form.value);
+        this.gameSourceId = response.payload.id;
+      }
       this.utilService.showSuccessSnack(response.message);
       await this.preLoadData();
     } catch (e) {

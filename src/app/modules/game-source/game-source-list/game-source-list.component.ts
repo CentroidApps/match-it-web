@@ -94,6 +94,10 @@ export class GameSourceListComponent implements OnInit, OnDestroy {
     this.loadData();
   }
 
+  addGameSource() {
+    this.router.navigate(['add-source-form'], { relativeTo: this.activatedRoute });
+  }
+
   async onGameTypeChanged() {
     await this.getGameSourceList();
   }
