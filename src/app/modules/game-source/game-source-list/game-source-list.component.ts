@@ -102,11 +102,7 @@ export class GameSourceListComponent implements OnInit, OnDestroy {
     this.router.navigate(['add-source-form'], { relativeTo: this.activatedRoute });
   }
 
-  async onGameTypeChanged() {
-    await this.getGameSourceList();
-  }
-
-  async onGameSourceGroupChanged() {
+  async onDropdownChanged() {
     await this.getGameSourceList();
   }
 
@@ -226,6 +222,7 @@ export class GameSourceListComponent implements OnInit, OnDestroy {
         keyword: this.filterForm.value.keyword,
         gameTypeId: this.filterForm.value.gameTypeId,
         sourceGroup: this.filterForm.value.sourceGroup,
+        status: this.filterForm.value.status,
       },
       queryParamsHandling: 'merge',
     });
