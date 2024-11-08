@@ -13,21 +13,21 @@
 		</mat-form-field>
 
 		<mat-form-field class="col-lg-3">
-			<mat-select formControlName="gameTypeId" (selectionChange)="onGameTypeChanged()"
+			<mat-select formControlName="gameTypeId" (selectionChange)="onDropdownChanged()"
 				placeholder="Select game type">
 				<mat-option *ngFor="let type of gameTypeList" [value]="type.id">{{type.gameType}}</mat-option>
 			</mat-select>
 		</mat-form-field>
 
 		<mat-form-field class="col-lg-2">
-			<mat-select formControlName="sourceGroup" (selectionChange)="onGameSourceGroupChanged()"
+			<mat-select formControlName="sourceGroup" (selectionChange)="onDropdownChanged()"
 				placeholder="Level filter">
 				<mat-option *ngFor="let type of systemConstValues?.sourceGroup" [value]="type">{{type}}</mat-option>
 			</mat-select>
 		</mat-form-field>
 
 		<mat-form-field class="col-lg-2">
-			<mat-select formControlName="status" (selectionChange)="onGameSourceGroupChanged()"
+			<mat-select formControlName="status" (selectionChange)="onDropdownChanged()"
 				placeholder="Status">
 				<mat-option *ngFor="let type of systemConstValues?.status" [value]="type">{{type}}</mat-option>
 			</mat-select>
