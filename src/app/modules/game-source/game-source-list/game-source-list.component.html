@@ -21,16 +21,24 @@
 
 		<mat-form-field class="col-lg-2">
 			<mat-select formControlName="sourceGroup" (selectionChange)="onGameSourceGroupChanged()"
-				placeholder="Select level filter">
+				placeholder="Level filter">
 				<mat-option *ngFor="let type of systemConstValues?.sourceGroup" [value]="type">{{type}}</mat-option>
 			</mat-select>
 		</mat-form-field>
 
-		<div class="col-lg-4 mt-2">
+		<mat-form-field class="col-lg-2">
+			<mat-select formControlName="status" (selectionChange)="onGameSourceGroupChanged()"
+				placeholder="Status">
+				<mat-option *ngFor="let type of systemConstValues?.status" [value]="type">{{type}}</mat-option>
+			</mat-select>
+		</mat-form-field>
+
+		<div class="col-lg-2 mt-2">
 			<button [matMenuTriggerFor]="menu" mat-icon-button matTooltip="Menu">
 				<mat-icon>tune</mat-icon>
 			</button>
 			<mat-menu #menu="matMenu">
+				<button class="m-2" mat-button color="primary" (click)="clearFilter()">Clear Filter</button>
 				<button class="m-2" mat-button color="primary" (click)="applyNewSequence(false)">Apply New
 					Sequence</button>&nbsp;
 				<button class="m-2" mat-button color="primary" (click)="applyNewSequence(true)">Clear Sequence</button>

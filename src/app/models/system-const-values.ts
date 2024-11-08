@@ -6,4 +6,5 @@ export interface SystemConstValues {
     mediaType: Array<string>;
     levelTypes: Array<string>;
     sourceGroup: Array<string>;
+    status: Array<string>;
 }

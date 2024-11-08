@@ -61,6 +61,7 @@ export class GameSourceListComponent implements OnInit, OnDestroy {
       keyword: new FormControl(null),
       gameTypeId: new FormControl(null),
       sourceGroup: new FormControl(null),
+      status: new FormControl(null),
     });
 
     this.activatedRoute.queryParams.subscribe((params) => {
@@ -79,6 +80,9 @@ export class GameSourceListComponent implements OnInit, OnDestroy {
       }
       if (params?.['sourceGroup'] && !this.filterForm.value.sourceGroup) {
         options['sourceGroup'] = params?.['sourceGroup'];
+      }
+      if (params?.['status'] && !this.filterForm.value.status) {
+        options['status'] = params?.['status'];
       }
 
       this.filterForm.patchValue(options);
@@ -103,6 +107,17 @@ export class GameSourceListComponent implements OnInit, OnDestroy {
   }
 
   async onGameSourceGroupChanged() {
+    await this.getGameSourceList();
+  }
+
+  async clearFilter() {
+    this.filterForm.patchValue({
+      keyword: null,
+      gameTypeId: null,
+      sourceGroup: null,
+      status: null,
+    });
+
     await this.getGameSourceList();
   }
 
@@ -192,6 +207,10 @@ export class GameSourceListComponent implements OnInit, OnDestroy {
 
     if (this.filterForm.value.sourceGroup) {
       params = params.append('sourceGroup', this.filterForm.value.sourceGroup);
+    }
+
+    if (this.filterForm.value.status) {
+      params = params.append('status', this.filterForm.value.status);
     }
     this.updateRoute();
     return params;
