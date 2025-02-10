@@ -5,7 +5,6 @@ import { ApiUrls } from '../config';
 import { AppResponse } from '../models/common-interface';
 import { GameSource } from '../models/game-source';
 import { MediaBucket } from '../models/media-bucket';
-import { MediaItem } from '../models/media-item';
 
 @Injectable({
   providedIn: 'root'
@@ -36,7 +35,7 @@ export class GameSourceService {
     return lastValueFrom(this.http.get<any>(ApiUrls.GAME_SOURCE() + '/' + gameSourceId,));
   }
 
-  uploadSourceMedia(file: FormData, gameSourceId: number): Promise<MediaItem> {
+  uploadSourceMedia(file: FormData, gameSourceId: number): Promise<any> {
     return lastValueFrom(this.http.post<any>(ApiUrls.MEDIA_UPLOAD() + '/' + gameSourceId, file, {
       headers: { 'fileUpload': 'true' },
     }));

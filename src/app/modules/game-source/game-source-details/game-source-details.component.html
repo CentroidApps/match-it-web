@@ -82,8 +82,10 @@
     </div>
     
     <input matInput placeholder="Browse File" fieldLabel="Add Game Source Media" hidden>
-    <button type="button" mat-raised-button color="primary" class="mt-3" (click)="fileUpload.click()">Add Game Source
+    <button type="button" mat-raised-button color="primary" class="mt-3 mr-3" (click)="fileUpload.click()">Add Game Source
         Media</button>
     <input class="file-btn" autocomplete="off" style="display: none;" type="file" #fileUpload
         (change)="addSourceMedia($event)" accept="image/png, image/jpeg, image/jpg, image/svg+xml" multiple />
+    <span class="m-2"></span>
+    <button type="button" mat-raised-button color="primary" class="mt-3" (click)="addFromCopyToClipboard()">Add from Copy to Clipboard</button>
 </div>
