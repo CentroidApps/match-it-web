@@ -107,6 +107,31 @@ export class GameSourceDetailsComponent implements OnInit {
     }
   }
 
+  async addFromCopyToClipboard() {
+    try {
+      this.utilService.showLoader();
+      const clipboardItems = await navigator.clipboard.read();
+      for (const item of clipboardItems) {
+        for (const type of item.types) {
+          if (type.startsWith('image/')) {
+            const blob = await item.getType(type);
+            let formData = new FormData()
+            formData.append('file', blob);
+            const response = await this.gameSourceService.uploadSourceMedia(formData, this.gameSourceId!);
+            this.utilService.showSuccessSnack(response.message);
+            await this.preLoadData();
+            return;
+          }
+        }
+      }
+      alert('No image found in clipboard.');
+    } catch (error) {
+      console.error('Error accessing clipboard:', error);
+    } finally {
+      this.utilService.hideLoader();
+    }
+  }
+
   async addSourceMedia(event: any) {
     try {
       this.utilService.showLoader();
@@ -118,8 +143,8 @@ export class GameSourceDetailsComponent implements OnInit {
 
           let formData = new FormData()
           formData.append('file', selectedFile);
-          let media = await this.gameSourceService.uploadSourceMedia(formData, this.gameSourceId!);
-          console.log(media);
+          const response = await this.gameSourceService.uploadSourceMedia(formData, this.gameSourceId!);
+          this.utilService.showSuccessSnack(response.message);
         }
         event.target.value = null;
         await this.preLoadData();
